@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <cassert>
 
 double add_row(std::vector<double> &v){
     double sum = 0;
@@ -9,26 +10,6 @@ double add_row(std::vector<double> &v){
     }
     return sum;
 }
-
-// std::vector<std::vector<double>> create_matrix(std::vector<std::vector<double>> &conductance, double v_dd){
-
-//     std::size_t num_nodes = conductance.size();
-//     std::vector<std::vector<double>> result(num_nodes, std::vector<double>(num_nodes));
-    
-//     for (std::size_t i = 0; i < num_nodes; ++i){
-//         for (std::size_t j = 0; j < num_nodes; ++j){
-//             if (i == j){
-//                 result[i][j] = add_row(conductance[i]);
-//             }
-//             else if (conductance[i][j] == 0) continue;
-//             else {
-//                 result[i][j] = -conductance[i][j];
-//             }
-//         }
-//     }
-
-//     return result;
-// }
 
 std::pair<std::vector<std::vector<double>>, std::vector<double>> create_matrix(std::vector<std::vector<double>> &conductance, double v_dd){
 
@@ -70,7 +51,6 @@ bool check_symmetry(std::vector<std::vector<double>> &v){
     for (auto i = 0; i < v.size(); ++i){
         for (auto j = i; j < v.size(); ++j){
             if (v[i][j] != v[j][i]){
-                std::cerr << v[i][j] << ' ' << v[j][i] << ' ' << i << ' ' << j << std::endl;
                 return false;
             }
         }
@@ -95,7 +75,7 @@ int main(){
     }
     std::cout << "Here is the conductance matrix:" << std::endl;
     print_matrix(conductance_matrix);
-    std::cout << check_symmetry(conductance_matrix);
+    assert(check_symmetry(conductance_matrix));
     std::cout << std::endl << "Here is the calculated coefficients:" << std::endl;
     std::pair<std::vector<std::vector<double>>, std::vector<double>> coefficients = create_matrix(conductance_matrix, 1);
     print_matrix(coefficients.first);
