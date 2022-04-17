@@ -6,4 +6,4 @@ Conductance the inverse of resistance. Conductance matrix `C[i][j]` represents t
 
 For the following circuit, first compile the program with `make`, then run as `./circuit <conductance_test.txt`.
 
-To confirm results, input the results into MATLAB as `A` and `B` then run `linsolve(A, B)`. You should get similar numbers as the top left of the screenshot.
+To confirm results, input the results into MATLAB as `A` and `B` then run `linsolve(A, B)`. You should get similar numbers as the top left of the screenshot, where V(R2.nB) is V1, V(R4.nB) is V2 etc.
