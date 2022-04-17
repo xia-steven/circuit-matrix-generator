@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>
 #include <cassert>
+#include <fstream>
 
 double add_row(std::vector<double> &v){
     double sum = 0;
@@ -31,18 +32,41 @@ std::pair<std::vector<std::vector<double>>, std::vector<double>> create_matrix(s
     return std::make_pair(A, B);
 }
 
-void print_vector(std::vector<double> &v){
-    for (double i : v){
-        std::cout << i << std::endl;
+namespace visual{
+    void print_vector(std::vector<double> &v, std::ostream &os){
+        for (double i : v){
+            std::cout << i << std::endl;
+        }
+    }
+
+    void print_matrix(std::vector<std::vector<double>> &matrix, std::ostream &os){
+        for (std::size_t i = 0; i < matrix.size(); ++i){
+            for (std::size_t j = 0; j < matrix.front().size(); ++j){
+                std::cout << matrix[i][j] << ' ';
+            }
+            std::cout << std::endl;
+        }
     }
 }
 
-void print_matrix(std::vector<std::vector<double>> &matrix){
-    for (std::size_t i = 0; i < matrix.size(); ++i){
-        for (std::size_t j = 0; j < matrix.front().size(); ++j){
-            std::cout << matrix[i][j] << " ";
+namespace matlab{
+    void print_vector(std::vector<double> &v, std::ostream &os){
+        os << "B = [";
+        for (auto i = 0; i < v.size(); ++i){
+            os << v[i] << "; ";
         }
-        std::cout << std::endl;
+        os << "];" << std::endl;
+    }
+
+    void print_matrix(std::vector<std::vector<double>> &matrix, std::ostream &os){
+        os << "A = [";
+        for (std::size_t i = 0; i < matrix.size(); ++i){
+            for (std::size_t j = 0; j < matrix.front().size(); ++j){
+                os << matrix[i][j] << ' ';
+            }
+            os << "; ";
+        }
+        os << "];" << std::endl;
     }
 }
 
@@ -73,12 +97,21 @@ int main(){
         }
         conductance_matrix.push_back(row);
     }
+
+    // Print visual information
     std::cout << "Here is the conductance matrix:" << std::endl;
-    print_matrix(conductance_matrix);
+    visual::print_matrix(conductance_matrix, std::cout);
     assert(check_symmetry(conductance_matrix));
     std::cout << std::endl << "Here is the calculated coefficients:" << std::endl;
     std::pair<std::vector<std::vector<double>>, std::vector<double>> coefficients = create_matrix(conductance_matrix, 1);
-    print_matrix(coefficients.first);
+    visual::print_matrix(coefficients.first, std::cout);
     std::cout << std::endl;
-    print_vector(coefficients.second);
+    visual::print_vector(coefficients.second, std::cout);
+
+    // Create MATLAB file
+    std::ofstream fout("circuit.m");
+    matlab::print_matrix(coefficients.first, fout);
+    matlab::print_vector(coefficients.second, fout);
+    fout << "linsolve(A, B)";
+    fout.close();
 }
