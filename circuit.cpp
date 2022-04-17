@@ -12,7 +12,8 @@ double add_row(std::vector<double> &v){
     return sum;
 }
 
-std::pair<std::vector<std::vector<double>>, std::vector<double>> create_matrix(std::vector<std::vector<double>> &conductance, double v_dd){
+std::pair<std::vector<std::vector<double>>, std::vector<double>> 
+    create_matrix(std::vector<std::vector<double>> &conductance, double v_dd){
 
     std::size_t num_nodes = conductance.size();
     std::vector<std::vector<double>> A(num_nodes-2, std::vector<double>(num_nodes-2));
