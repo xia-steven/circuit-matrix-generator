@@ -1,6 +1,6 @@
 # circuit-matrix-generator
 
-Conductance the inverse of resistance. Conductance matrix `C[i][j]` represents the conductance between node `i` and `j`. If `i == j` then `C[i][j] = 0`.   
+Conductance the inverse of resistance. Conductance matrix `C[i][j]` represents the conductance between node `i` and `j`. If `i == j`, then `C[i][j] = 0`. If node `i` and `j` are not directly connected via series resistors, then `C[i][j] = 0`.
 
 ![Inked214 Screenshot](https://user-images.githubusercontent.com/97299316/163731221-494a93b7-89c9-4f7c-8df3-abe970092117.jpg)
 
