@@ -7,7 +7,7 @@ CXXFLAGS ?= --std=c++17 -O3
 circuit: circuit.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-test:
+example:
 	./circuit <conductance_test.txt
 
 clean:
